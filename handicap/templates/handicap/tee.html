@@ -1,0 +1,16 @@
+{% extends "generic/base.html" %}
+{%  block title%}
+detail
+{%  endblock title %}
+
+{% block content %}
+<div  class="course_list_detail_card">
+  <h3> <a  href="{% url "tee_selection" pk=course.id %}">{{ course.name }}</a></h3>
+  <p class="course_phone">{{course.phone}}</p>
+  <p class="course_city">{{course.city}}</p>
+  <p class="course_region">{{course.region}}</p>
+</div>
+{% for tee in tees%}
+  <p>{{tee.color}}</p>
+{% endfor %}
+{% endblock content %}

@@ -15,9 +15,15 @@ Including another URLconf
 """
 from django.urls import path,  include
 from django.contrib import admin
-from .views import home_view
+from .views import home_view, user_handicap_view, course_list_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view, name='home'),
+    path('handicap/', include ('handicap.urls')),
+    path('accounts/', include('django_registration.backends.activation.urls')),
+    path('accounts/', include ('django.contrib.auth.urls'))
+   
+
+
 ]
