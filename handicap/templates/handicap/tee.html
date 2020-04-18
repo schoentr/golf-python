@@ -13,4 +13,11 @@ detail
 {% for tee in tees%}
   <p>{{tee.color}}</p>
 {% endfor %}
+<form action='.' method="POST" enctype="application/x-www-form-urlencoded">
+  {{ form.as_table }}
+  {% csrf_token %}
+  <button type="submit">
+    
+  </button>
+</form>
 {% endblock content %}

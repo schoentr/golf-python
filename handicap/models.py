@@ -45,7 +45,7 @@ class Round(models.Model):
   course = models.ForeignKey(Course, on_delete=models.CASCADE)
   tee = models.ForeignKey(Tee, on_delete=models.CASCADE)
   score= models.CharField(max_length=4)
-  differential=models.CharField(max_length=5, blank=True)
+  differential=models.DecimalField(max_digits=5,decimal_places=2, blank=False)
   date_played=models.DateField()
   def __repr__(self):
     return f'<Score:{self.score}>'
