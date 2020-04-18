@@ -21,9 +21,8 @@ def course_list_view (request):
   form = EntryForm(request.POST or None)
   courses=  get_list_or_404(Course)
   tees=get_list_or_404(Tee)
-  if request.method == 'POST' and form.is_valid():
-
-    print(form.cleaned_data['course'])
+  if request.method == 'POST':
+    print(rp)
     form.save()
   courses=  get_list_or_404(Course)
   context= {
