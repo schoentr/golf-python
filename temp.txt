@@ -1,0 +1,23 @@
+<form action="." method="post" >
+    {% csrf_token %}
+    <input id="course_input" value={{course.id}} type="hidden">
+    <label for="date_input">Date Played:</label>
+      <input id="date_input" type="date">
+    <label for="tee_input"> Choose Tee: </label>
+      <select id="tee_input">
+      {% for tee in tees%}
+        <option value={{tee.id}}>{{tee.color}}</option>
+      {% endfor %}
+    </select>
+    <label for="score_input">Score:</label>
+      <input id="score_input" type="number" value=88>
+      <button type="submit">POST</button>
+  
+  </form>
+
+  <form action="/tee.html" method="POST" enctype="application/x-www-form-urlencoded">
+    {{form.as_table}}
+    {% csrf_token%}
+    <button type="submit">POST</button>
+  
+  </form>

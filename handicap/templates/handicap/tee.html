@@ -13,4 +13,39 @@ detail
 {% for tee in tees%}
   <p>{{tee.color}}</p>
 {% endfor %}
+
+
+<form action='.' method="POST" enctype="application/x-www-form-urlencoded">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  <div class="fieldWrapper">
+      {{ form.course.errors }}
+    <label for="{{ form.course.id_for_label}}"></label>
+    <input value={{course.id}} type="hidden">
+  </div>
+
+
+  <div class="fieldWrapper">
+    {{ form.date.errors}}
+    <label for="{{ form.date_played.id_for_label }}">Date Played:</label>
+    <input type=date value={{form.date_played}}
+  </div>
+
+ <div class=fieldWrapper>
+    <label for="{{form.score.id_for_label}}">Score:</label>
+      <input type="number" value=88 id={{form.score}} 
+  </div>
+
+  <div class="fieldWrapper">
+    <label for="{{form.tee.id_for_label}}"> Choose Tee: </label>
+      <select>
+      {% for tee in tees%}
+        <option  value="{{form.tee.id}}">{{tee.color}}</option>
+      {% endfor %}
+      </select>
+  </div>
+    <button type="submit">POST</button>
+
+
+</form>
 {% endblock content %}
