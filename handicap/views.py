@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_list_or_404, get_object_or_404
+from django.shortcuts import render, get_list_or_404, get_object_or_404,redirect
 from .models import Course, Tee
 from .forms import EntryForm
 
@@ -7,12 +7,6 @@ from .forms import EntryForm
 def home_view (request):
   return render(request, 'generic/home.html' ,context={'message':'Tim'})
 
-def user_handicap_view (request):
-  name='tim'
-  context = {
-    'message':name,
-  }
-  return render(request, 'handicap/user_handicap.html' ,context )
 
 def course_list_view (request):
   rp=request.POST
@@ -22,15 +16,22 @@ def course_list_view (request):
   if request.method == 'POST':
     rp1 = rp.copy()
     diff_calculated = calculate_differential(rp1['score'],rp1['tee'])
-
     rp1['differential'] = str(diff_calculated)
     form=EntryForm(rp1)
     form.save()
+    return redirect('user_handicap')
   courses=  get_list_or_404(Course)
   context= {
     'courses':courses,
   }
   return  render (request, 'handicap/courses.html', context)
+
+def user_handicap_view (request):
+  name='tim'
+  context = {
+    'message':name,
+  }
+  return render(request, 'handicap/user_handicap.html' ,context )
 
 def tee_selection_view (request, pk=None):
   form = EntryForm(request.POST or None)
