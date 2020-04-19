@@ -25,15 +25,15 @@ class Tee(models.Model):
   """
   course = models.ForeignKey(Course, on_delete=models.CASCADE)
   color = models.CharField(max_length=20)
-  rating = models.CharField(max_length=20)
-  slope = models.CharField(max_length=20)
+  rating = models.DecimalField(max_digits=5,decimal_places=2, blank=True)
+  slope = models.IntegerField()
   date_added = models.DateField(auto_now=True)
   date_modified=models.DateField(blank=True, auto_now=True)
 
   def __repr__(self):
-    return f' | Tee: {self.color}>'
+    return f'< {self.color}>'
   def __str__(self):
-    return f'{self.color}'
+    return f'{self.course} -- {self.color}'
 
 class Round(models.Model):
   """
@@ -42,12 +42,11 @@ class Round(models.Model):
   Depends on Courses, Tees
 
   """
-  course = models.ForeignKey(Course, on_delete=models.CASCADE)
   tee = models.ForeignKey(Tee, on_delete=models.CASCADE)
-  score= models.CharField(max_length=4, blank=True
-  )
+  score= models.IntegerField()
   differential=models.DecimalField(max_digits=5,decimal_places=2, blank=True)
   date_played=models.DateField(blank=True)
+ 
   def __repr__(self):
     return f'<Score:{self.score}>'
   def __str__(self):
