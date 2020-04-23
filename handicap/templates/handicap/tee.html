@@ -11,10 +11,28 @@ detail
   <p class="course_region">{{course.region}}</p>
 </div>
 {% if tees is not None %}
-{% for tee in tees%}
-<p>Tee ID: {{tee.id}} - {{tee.course}}</p>
-{% endfor %}
-<p> Tee:{{tees}}</p>
+<table>
+  <thead>
+    <tr>
+      <td>Color</td>
+      <td>Par</td>
+      <td>Length</td>
+      <td>Slope</td>
+      <td>Rating</td>
+    </tr>
+  </thead>
+  <tbody>
+    {% for tee in tees%}
+    <tr>
+      <td>{{tee.color}}</td>
+      <td>{{tee.par}}</td>
+      <td>{{tee.length}}</td>
+      <td>{{tee.slope}}</td>
+      <td>{{tee.rating}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
 <form action='.' method="POST" enctype="application/x-www-form-urlencoded">
   {% csrf_token %}

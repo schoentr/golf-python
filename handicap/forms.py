@@ -1,5 +1,5 @@
 from django import forms
-from .models import Round
+from .models import Round, Course
 
 
 
@@ -11,3 +11,7 @@ class EntryForm(forms.ModelForm):
 class UrlForm(forms.Form):
   url= forms.URLField()
   
+class CourseForm(forms.ModelForm):
+  class Meta:
+    model = Course
+    fields = ['name','street','city','region','zip_Code']
