@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_list_or_404, get_object_or_404,redirect
 from .models import Course, Tee, Round
-from .forms import EntryForm
+from .forms import EntryForm, UrlForm
+from bs4 import BeautifulSoup
+import requests
 
 
 # Create your views here
@@ -10,6 +12,7 @@ def home_view (request):
 
 
 def course_list_view (request):
+  form1=UrlForm(request.POST or None)
   rp=request.POST
   form = EntryForm(request.POST or None)
   courses=  get_list_or_404(Course)
@@ -24,6 +27,7 @@ def course_list_view (request):
   courses=  get_list_or_404(Course)
   context= {
     'courses':courses,
+    'form':form1,
   }
   return  render (request, 'handicap/courses.html', context)
 
@@ -35,20 +39,32 @@ def user_handicap_view (request):
   return render(request, 'handicap/user_handicap.html' ,context )
 
 def tee_selection_view (request, pk=None):
-  form = EntryForm(request.POST or None)
-  if request.method == 'POST' and form.is_valid():
-    form.save()
   course = get_object_or_404(Course, id=pk)
   tee = Tee.objects.filter(course_id=pk)
-  print ('TEE LENGTH___>>>>', len(tee))
   if len(tee)==0:
     tee = None
   context= {
     'course': course,
     'tees':tee,
-    'form':form,
+    
   }
   return render(request,'handicap/tee.html',  context)
+
+def scrape_view(request):
+  form= UrlForm(request.POST or None)
+  if request.method=='POST':
+    form = UrlForm(request.POST)
+    if form.is_valid():
+      cd = form.cleaned_data
+      #now in the object cd, you have the form as a dictionary.
+      url_cleaned = cd.get('url')
+  page_scrape(url_cleaned)
+  context={}
+  return redirect('home')
+
+
+#Helper Functions
+  
 
 def calculate_differential(score,hole_id):
   score= int(score)
@@ -66,32 +82,40 @@ def calculate_differential(score,hole_id):
 def calculate_handicap(rounds):
   handi_ratio=1,1,1,1,1,1,2,2,3,3,4,4,5,5,6,6,7,8,9,10
   length_rounds = len(rounds)
-  print ('length Rounds #####', length_rounds)
   diffs = []
   for round in rounds:
     round.used = False
     round.save()
     diffs.append(round.differential)
   diffs.sort()
-  print(diffs)
   cut = handi_ratio[length_rounds]
   diffs = diffs[:cut]
   sum_diffs= sum(diffs)
-  print(sum_diffs)
   handicap = sum_diffs / len(diffs)
   handicap = float(handicap)
   handicap = handicap * 0.96
   count = 0
   for round in rounds:
     if round.differential in diffs and count < len(diffs):
-      print('MADE IT *****', round.score)
       round.used = True
       round.save()
-      count +=1
-      
+      count +=1    
   context = {
     'handicap':handicap,
     'rounds':rounds
   }
-
   return context
+
+def page_scrape(url):
+  html_content = requests.get(url).text
+  soup = BeautifulSoup(html_content, 'lxml')
+  name =soup.find('h3').text
+  address = soup.find('span', itemprop='streetAddress').text
+  city = soup.find('span', itemprop='addressLocality').text
+  region = soup.find ('span', itemprop='addressRegion').text
+  zipCode= soup.find ('span', itemprop='postalCode').text
+
+
+  print(name, address, city, region, zipCode)
+
+  return 1
