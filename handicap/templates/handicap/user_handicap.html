@@ -4,8 +4,34 @@
 
 {% block content %}
 
-<h2>Tim's Golf App(handicap)</h2>
+<h2> handicap= {{handicap}}</h2>
 
-<p>{{ message }}</p>
+<table>
+  <tr>
+    <th>Date</th>
+    <th>Course - Tee</th>
+    <th>Score</th>
+    <th>Differential</th>
+  </tr>
+  {% for round in rounds %}
+    {%if round.used == True %}
+  <tr class="used" style="color:green">
+    <td>{{round.date_played}}</td>
+    <td>{{round.tee}}</td>
+    <td>{{round.score}}</td>
+    <td>{{round.differential}}</td>
+  </tr>
+  {% else %}
+  <tr class="unused" style="color:blue">
+    <td>{{round.date_played}}</td>
+    <td>{{round.tee}}</td>
+    <td>{{round.score}}</td>
+    <td>{{round.differential}}</td>
+  </tr>
+    {%endif%}
+
+  {%endfor%}
+</table>
+
 
 {%endblock content%}
