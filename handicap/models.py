@@ -30,6 +30,7 @@ class Tee(models.Model):
   date_added = models.DateField(auto_now=True)
   date_modified=models.DateField(blank=True, auto_now=True)
 
+
   def __repr__(self):
     return f'< {self.color}>'
   def __str__(self):
@@ -46,6 +47,7 @@ class Round(models.Model):
   score= models.IntegerField()
   differential=models.DecimalField(max_digits=5,decimal_places=2, blank=True)
   date_played=models.DateField(blank=True)
+  used = models.BooleanField(default=False)
  
   def __repr__(self):
     return f'<Score:{self.score}>'

@@ -10,17 +10,11 @@ detail
   <p class="course_city">{{course.city}}</p>
   <p class="course_region">{{course.region}}</p>
 </div>
+{% if tees is not None %}
 {% for tee in tees%}
-  <p>{{tee.color}}</p>
+<p>Tee ID: {{tee.id}} - {{tee.course}}</p>
 {% endfor %}
-
-</form>
-
-
-{% for tee in tees%}
-<p>Tee ID: {{tee.id}} </p>
-{% endfor %}
-
+<p> Tee:{{tees}}</p>
 
 <form action='.' method="POST" enctype="application/x-www-form-urlencoded">
   {% csrf_token %}
@@ -41,6 +35,11 @@ detail
     <label for="{{form.differential.id_for_label}}"></label>
       <input type="hidden"  value=10 id={{form.differential}} 
   </div>
+ <div class=fieldWrapper>
+    <label for="{{form.used.id_for_label}}"></label>
+      <input type="hidden"  value=False id={{form.used}} 
+  </div>
+
 
   <div class="fieldWrapper">
 
@@ -53,6 +52,6 @@ detail
   </div>
     <button type="submit">POST</button>
 
-
 </form>
+{%endif%}
 {% endblock content %}
