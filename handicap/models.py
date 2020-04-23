@@ -5,11 +5,12 @@ class Course(models.Model):
   This is where course specific infomation is stored, 
   """
   name = models.CharField(max_length=200)
-  phone = models.CharField(max_length=20)
+  street = models.CharField(max_length=100, blank=True)
   city = models.CharField(max_length=50)
   region = models.CharField(max_length=20)
+  zip_Code = models.CharField(max_length=20, blank=True)
   date_added = models.DateField(auto_now=True)
-  date_modified=models.DateField(blank=True, auto_now=True)
+
    
   def __repr__(self):
     return f'<Course: {  self.name } | Date: {self.date_added}>'
@@ -25,10 +26,12 @@ class Tee(models.Model):
   """
   course = models.ForeignKey(Course, on_delete=models.CASCADE)
   color = models.CharField(max_length=20)
+  length = models.CharField(max_length=20, default="- yards")
   rating = models.DecimalField(max_digits=5,decimal_places=2, blank=True)
   slope = models.IntegerField()
+  par = models.IntegerField(default=72)
   date_added = models.DateField(auto_now=True)
-  date_modified=models.DateField(blank=True, auto_now=True)
+
 
 
   def __repr__(self):

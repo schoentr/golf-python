@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_list_or_404, get_object_or_404,redirect
 from .models import Course, Tee, Round
-from .forms import EntryForm, UrlForm
+from .forms import EntryForm, UrlForm, CourseForm
 from bs4 import BeautifulSoup
 import requests
 
@@ -15,7 +15,7 @@ def course_list_view (request):
   form1=UrlForm(request.POST or None)
   rp=request.POST
   form = EntryForm(request.POST or None)
-  courses=  get_list_or_404(Course)
+  courses= Course.objects.all()
   tees=Tee.objects.all()
   if request.method == 'POST':
     rp1 = rp.copy()
@@ -60,7 +60,7 @@ def scrape_view(request):
       url_cleaned = cd.get('url')
   page_scrape(url_cleaned)
   context={}
-  return redirect('home')
+  return redirect('course_list_view')
 
 
 #Helper Functions
@@ -114,8 +114,29 @@ def page_scrape(url):
   city = soup.find('span', itemprop='addressLocality').text
   region = soup.find ('span', itemprop='addressRegion').text
   zipCode= soup.find ('span', itemprop='postalCode').text
+  course = Course(name=name, street=address, city=city,region=region,zip_Code=zipCode)
 
+  course.save()
+  course_id=course.id
+  
+  color=[]
+  par=[]
+  length=[]
+  rating=[]
+  slope=[]
 
-  print(name, address, city, region, zipCode)
+  table = soup.find('table',id='course-details-chart')
+  tbody = table.find('tbody')
+  rows = tbody.find_all('tr')
+  for  row in rows:
+    color_scraped = row.find_all('td')[0].text
+    par_scraped = row.find_all('td')[1].text
+    length_scraped = row.find_all('td')[2].text
+    rating_scraped = row.find_all('td')[3].text
+    slope_scraped = row.find_all('td')[4].text
+    tee= Tee(course=course,color=color_scraped,length=length_scraped,rating=rating_scraped,slope=slope_scraped,par=par_scraped)
+    tee.save()
+    
+  print(name, address, city, region, zipCode,'----',course_id)
 
   return 1
