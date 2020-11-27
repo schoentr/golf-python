@@ -8,7 +8,6 @@ def user_handicap_view (request):
   name='tim'
   context = {
     'message':name,
-
   }
   return render(request, 'generic/user_handicap.html' ,context )
 

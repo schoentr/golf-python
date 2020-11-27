@@ -70,6 +70,7 @@ def calculate_differential(score,hole_id):
   score= int(score)
   hole_id = int(hole_id)
   tees= Tee.objects.values_list('rating','slope')
+  print("tees", tees)
   slope= tees[0][1]
   rating = tees[0][0]
   rating=float(rating)
@@ -91,7 +92,10 @@ def calculate_handicap(rounds):
   cut = handi_ratio[length_rounds]
   diffs = diffs[:cut]
   sum_diffs= sum(diffs)
-  handicap = sum_diffs / len(diffs)
+  num_diffs= len(diffs)
+  if num_diffs < 1:
+    num_deffs = 1
+  handicap = sum_diffs / num_diffs
   handicap = float(handicap)
   handicap = handicap * 0.96
   count = 0
