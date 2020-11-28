@@ -5,11 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width = device width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content= "ie=edge">
-  <link rel="stylesheet" href="{%static "css/normalize.css" %}">
-  <link rel="stylesheet" href="{%static "css/skeleton.css" %}">
+  <!-- <link rel="stylesheet" href="{%static "css/normalize.css" %}"> -->
+  <!-- <link rel="stylesheet" href="{%static "css/skeleton.css" %}"> -->
   <link rel="stylesheet" href="{%static "css/styles.css" %}">
 </head> 
-<body>
+<body id="body">
   <header>
     {% if user.is_authenticated %}
     <h5>Logged in as: <strong>{{user.username}}</strong>  User ID: {{user.id}}</h5>

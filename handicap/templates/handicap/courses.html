@@ -15,8 +15,8 @@ detail
     <span class="course_zip">{{course.zip_Code}}</span>
   </div>
   {% endfor %}
-  <div>
 </div>
+<div>
     <form action="../scrape/"  method="POST" enctype="application/x-www-form-urlencoded">
       {% csrf_token %}
       {{form.as_p}}

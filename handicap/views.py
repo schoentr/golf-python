@@ -33,8 +33,11 @@ def course_list_view (request):
 
 def user_handicap_view (request):
   current_user_id=request.user.id
-  rounds=list(Round.objects.filter(user=current_user_id).order_by('-date_played')[:20])
-  print (rounds)
+  rounds=list(Round.objects.filter(user=current_user_id).order_by('date_played')[:20])
+  temp = 0
+  for round in rounds:
+    temp+=1
+    print ("Round ",  temp,'',round )
   context = calculate_handicap(rounds)
  
   return render(request, 'handicap/user_handicap.html' ,context )
@@ -85,6 +88,7 @@ def calculate_handicap(rounds):
   handi_ratio=1,1,1,1,1,1,2,2,3,3,4,4,5,5,6,6,7,8,9,10
   length_rounds = len(rounds)
   diffs = []
+  # rounds.order_by('date_played')
   for round in rounds:
     round.used = False
     round.save()
