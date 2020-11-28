@@ -17,11 +17,17 @@
     <nav>
       <ul>
         <li><a href="{% url "home" %}"> Home</a></li>
+        {% if user.is_authenticated%}
         <li><a href="{% url "user_handicap" %}"> Handicap</a></li>
         <li><a href="{% url "course_list_view" %}">Course List</a></li>
+        {% if user.is_superuser%}
+        <li><a href=" {% url "admin:index" %}">Admin</a></li>
+        {% endif %}
+        <li><a href=" {% url "logout" %}">Logout</a></li>
+        {% else %}
         <li><a href="{% url "django_registration_register" %}">Register</a></li>
         <li><a href="{% url "login" %}">Signin</a></li>
-        <li><a href=" {% url "logout" %}">Logout</a></li>
+        {% endif %}
       </ul>
     </nav>
   </header>
