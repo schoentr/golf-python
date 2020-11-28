@@ -14,8 +14,8 @@ def home_view (request):
 def course_list_view (request):
   form1=UrlForm(request.POST or None)
   rp=request.POST
-  form = EntryForm(request.POST or None)
-  courses= Course.objects.all()
+  form = EntryForm(request.POST or None)    
+  courses= list(Course.objects.all().order_by('name'))
   tees=Tee.objects.all()
   if request.method == 'POST':
     rp1 = rp.copy()
@@ -24,7 +24,7 @@ def course_list_view (request):
     form=EntryForm(rp1)
     form.save()
     return redirect('user_handicap')
-  courses=  get_list_or_404(Course)
+ 
   context= {
     'courses':courses,
     'form':form1,
