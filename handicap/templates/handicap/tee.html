@@ -37,6 +37,10 @@ detail
 <form action='.' method="POST" enctype="application/x-www-form-urlencoded">
   {% csrf_token %}
   {{ form.non_field_errors }}
+  <div class=fieldWrapper>
+    <label for="{{form.user.id_for_label}}"></label>
+      <input name="user"  value={{user.id}} id={{form.user}}
+  </div>
 
   <div class="fieldWrapper">
     {{ form.date.errors}}

@@ -46,6 +46,7 @@ class Round(models.Model):
   Depends on Courses, Tees
 
   """
+  user = models.CharField(blank=True,max_length=5)
   tee = models.ForeignKey(Tee, on_delete=models.CASCADE)
   score= models.IntegerField()
   differential=models.DecimalField(max_digits=5,decimal_places=2, blank=True)

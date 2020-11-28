@@ -6,7 +6,7 @@ from .models import Round, Course
 class EntryForm(forms.ModelForm):
   class Meta:
     model = Round
-    fields = ['tee','score','differential','date_played','used']
+    fields = ['user','tee','score','differential','date_played','used']
 
 class UrlForm(forms.Form):
   url= forms.URLField()

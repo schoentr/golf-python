@@ -12,7 +12,7 @@
 <body>
   <header>
     {% if user.is_authenticated %}
-    <h5>Logged in as: <strong>{{user.username}}</strong></h5>
+    <h5>Logged in as: <strong>{{user.username}}</strong>  User ID: {{user.id}}</h5>
     {% endif %}
     <nav>
       <ul>

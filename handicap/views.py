@@ -32,7 +32,8 @@ def course_list_view (request):
   return  render (request, 'handicap/courses.html', context)
 
 def user_handicap_view (request):
-  rounds=list(Round.objects.all().order_by('-date_played')[:20])
+  current_user_id=request.user.id
+  rounds=list(Round.objects.filter(user=current_user_id).order_by('-date_played')[:20])
   print (rounds)
   context = calculate_handicap(rounds)
  
