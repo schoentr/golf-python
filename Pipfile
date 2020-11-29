@@ -13,6 +13,8 @@ django-registration = "*"
 flake8 = "*"
 beautifulsoup4 = "*"
 requests = "*"
+xml = "*"
+lxml = "*"
 
 [requires]
 python_version = "3.7"

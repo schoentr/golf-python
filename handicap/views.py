@@ -2,14 +2,11 @@ from django.shortcuts import render, get_list_or_404, get_object_or_404,redirect
 from .models import Course, Tee, Round
 from .forms import EntryForm, UrlForm, CourseForm
 from bs4 import BeautifulSoup
+from django.contrib.auth.models import User
 import requests
 
 
 # Create your views here
-def home_view (request):
-
-  return render(request, 'generic/home.html' ,context={'message':'Tim'})
-
 
 def course_list_view (request):
   form1=UrlForm(request.POST or None)
@@ -24,7 +21,6 @@ def course_list_view (request):
     form=EntryForm(rp1)
     form.save()
     return redirect('user_handicap')
- 
   context= {
     'courses':courses,
     'form':form1,
@@ -103,6 +99,8 @@ def calculate_handicap(rounds):
   handicap = sum_diffs / num_diffs
   handicap = float(handicap)
   handicap = handicap * 0.96
+  temp_hanicap = "{:.2f}".format(handicap)
+  handicap = temp_hanicap
   count = 0
   for round in rounds:
     if round.differential in diffs and count < len(diffs):
@@ -118,7 +116,7 @@ def calculate_handicap(rounds):
 def page_scrape(url):
   html_content = requests.get(url).text
   soup = BeautifulSoup(html_content, 'lxml')
-  name =soup.find('h3').text
+  name =soup.find('h1').text
   address = soup.find('span', itemprop='streetAddress').text
   city = soup.find('span', itemprop='addressLocality').text
   region = soup.find ('span', itemprop='addressRegion').text

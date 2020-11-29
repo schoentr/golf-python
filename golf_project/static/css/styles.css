@@ -66,18 +66,38 @@ label {
   }
   .used{
     background-color: rgba(128, 184, 153,.5);
-
   }
   .unused{
     background-color: rgba(103, 113, 122,.6);
   }
+
+  #hadicap-rating-scores-page{
+    display:block;
+    text-align:center;
+    background-color: rgba(245, 245, 245, .1);
+    padding: 5px;
+    width:50%;
+    margin-left: 20%;
+    color:rgb(24, 24, 24);
+
+    /* margin:40px,10px,60px,80px; */
+
+  }
+  nav{
+    display:inline-block;
+
+  }
+  nav li {
+    margin:2px,0px;
+  }
+
   #card_list_deck {
     display:block;
     height: 450px;
     overflow-y: scroll;
   }
   .course_list_detail_card{
-    background-color: rgba(245, 224, 186,.3);
+    background-color: rgba(209, 205, 199, 0.3);
     margin:4px;
     width:90%;
     text-align: center;
