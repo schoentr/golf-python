@@ -37,30 +37,30 @@ detail
 <form action='.' method="POST" enctype="application/x-www-form-urlencoded">
   {% csrf_token %}
   {{ form.non_field_errors }}
-
+  <div class=fieldWrapper>
+    <label for="{{form.user.id_for_label}}"></label>
+      <input name="user" type="hidden"  value={{user.id}} id={{form.user}}
+  </div>
 
   <div class="fieldWrapper">
     {{ form.date.errors}}
     <label for="{{ form.date_played.id_for_label }}">Date Played:</label>
-    <input type=date required value={{form.date_played}} 
+    <input name="date_played" type=date required value={{form.date_played}} 
   </div>
 
- <div class=fieldWrapper>
+  <div class=fieldWrapper>
     <label for="{{form.score.id_for_label}}">Score:</label>
-      <input type="number" value=88 id={{form.score}} 
+      <input name="score" type="number" value=88 id={{form.score}} 
   </div>
- <div class=fieldWrapper>
+  <div class=fieldWrapper>
     <label for="{{form.differential.id_for_label}}"></label>
       <input type="hidden"  value=10 id={{form.differential}} 
-  </div>
- <div class=fieldWrapper>
+    
+  <div class=fieldWrapper>
     <label for="{{form.used.id_for_label}}"></label>
-      <input type="hidden"  value=False id={{form.used}} 
+      <input type="hidden"  value=False id={{form.used}}
   </div>
-
-
   <div class="fieldWrapper">
-
     <label for="{{form.tee.id_for_label}}"> Choose Tee: </label>
     <select name="tee" id="tee_input">
       {% for tee in tees%}

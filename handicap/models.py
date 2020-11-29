@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Course(models.Model):
   """
@@ -46,6 +47,7 @@ class Round(models.Model):
   Depends on Courses, Tees
 
   """
+  user = models.ForeignKey(User,on_delete=models.CASCADE, related_name='user_name')
   tee = models.ForeignKey(Tee, on_delete=models.CASCADE)
   score= models.IntegerField()
   differential=models.DecimalField(max_digits=5,decimal_places=2, blank=True)
@@ -55,7 +57,7 @@ class Round(models.Model):
   def __repr__(self):
     return f'<Score:{self.score}>'
   def __str__(self):
-    return f' Score:{self.score}'
+    return f'User:{self.user} |  Tee:{self.tee}|   Score:{self.score}'
 
 
 

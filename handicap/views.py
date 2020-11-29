@@ -2,20 +2,17 @@ from django.shortcuts import render, get_list_or_404, get_object_or_404,redirect
 from .models import Course, Tee, Round
 from .forms import EntryForm, UrlForm, CourseForm
 from bs4 import BeautifulSoup
+from django.contrib.auth.models import User
 import requests
 
 
 # Create your views here
-def home_view (request):
-
-  return render(request, 'generic/home.html' ,context={'message':'Tim'})
-
 
 def course_list_view (request):
   form1=UrlForm(request.POST or None)
   rp=request.POST
-  form = EntryForm(request.POST or None)
-  courses= Course.objects.all()
+  form = EntryForm(request.POST or None)    
+  courses= list(Course.objects.all().order_by('name'))
   tees=Tee.objects.all()
   if request.method == 'POST':
     rp1 = rp.copy()
@@ -24,7 +21,6 @@ def course_list_view (request):
     form=EntryForm(rp1)
     form.save()
     return redirect('user_handicap')
-  courses=  get_list_or_404(Course)
   context= {
     'courses':courses,
     'form':form1,
@@ -32,8 +28,12 @@ def course_list_view (request):
   return  render (request, 'handicap/courses.html', context)
 
 def user_handicap_view (request):
-  rounds=list(Round.objects.all().order_by('-date_played')[:20])
-  print (rounds)
+  current_user_id=request.user.id
+  rounds=list(Round.objects.filter(user=current_user_id).order_by('date_played')[:20])
+  temp = 0
+  for round in rounds:
+    temp+=1
+    print ("Round ",  temp,'',round )
   context = calculate_handicap(rounds)
  
   return render(request, 'handicap/user_handicap.html' ,context )
@@ -70,6 +70,7 @@ def calculate_differential(score,hole_id):
   score= int(score)
   hole_id = int(hole_id)
   tees= Tee.objects.values_list('rating','slope')
+  print("tees", tees)
   slope= tees[0][1]
   rating = tees[0][0]
   rating=float(rating)
@@ -83,6 +84,7 @@ def calculate_handicap(rounds):
   handi_ratio=1,1,1,1,1,1,2,2,3,3,4,4,5,5,6,6,7,8,9,10
   length_rounds = len(rounds)
   diffs = []
+  # rounds.order_by('date_played')
   for round in rounds:
     round.used = False
     round.save()
@@ -91,9 +93,14 @@ def calculate_handicap(rounds):
   cut = handi_ratio[length_rounds]
   diffs = diffs[:cut]
   sum_diffs= sum(diffs)
-  handicap = sum_diffs / len(diffs)
+  num_diffs= len(diffs)
+  if num_diffs < 1:
+    num_deffs = 1
+  handicap = sum_diffs / num_diffs
   handicap = float(handicap)
   handicap = handicap * 0.96
+  temp_hanicap = "{:.2f}".format(handicap)
+  handicap = temp_hanicap
   count = 0
   for round in rounds:
     if round.differential in diffs and count < len(diffs):
@@ -109,7 +116,7 @@ def calculate_handicap(rounds):
 def page_scrape(url):
   html_content = requests.get(url).text
   soup = BeautifulSoup(html_content, 'lxml')
-  name =soup.find('h3').text
+  name =soup.find('h1').text
   address = soup.find('span', itemprop='streetAddress').text
   city = soup.find('span', itemprop='addressLocality').text
   region = soup.find ('span', itemprop='addressRegion').text

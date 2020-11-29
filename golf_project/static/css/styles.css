@@ -1,7 +1,10 @@
+
+
 nav ul li { 
   list-style-type: none;
   margin:0px;
   display:inline;
+  /* background-color: lightsalmon; */
 
 }
 
@@ -22,10 +25,10 @@ nav ul li {
 .course_list_detail_card > h4 {
   margin:0px;
 }
-table {
+/* table {
   width: 100%;
   max-width: 600px;
-}
+} */
 th,td {
   padding :2px 5px;
 }
@@ -34,4 +37,70 @@ form{
 }
 label {
   display: inline;
+}
+
+/* INSERT MEDIA BREAK HERE FOR IP6 */
+@media screen and (max-width: 375px){
+  #body {
+    background-color: lightslategray;
+    background-image: url("../assets/background.jpg");
+    background-size: auto;
+    height:100%;                      
+    background-repeat: no-repeat;
+    /* background-position: center center;  */
+    /* margin-top: 600 px; */
+  }
+
+  #handicap-table{
+    display: block;
+    padding-left: 10px;
+    border-color: magenta;
+    border-radius: 2px;
+    position: relative;
+    width: 95%;
+    font-size: 13px;
+    height:450px;
+    /* opacity:.5; */
+    /* overflow-y: scroll; */
+    overflow-y: scroll;
+  }
+  .used{
+    background-color: rgba(128, 184, 153,.5);
+  }
+  .unused{
+    background-color: rgba(103, 113, 122,.6);
+  }
+
+  #hadicap-rating-scores-page{
+    display:block;
+    text-align:center;
+    background-color: rgba(245, 245, 245, .1);
+    padding: 5px;
+    width:50%;
+    margin-left: 20%;
+    color:rgb(24, 24, 24);
+
+    /* margin:40px,10px,60px,80px; */
+
+  }
+  nav{
+    display:inline-block;
+
+  }
+  nav li {
+    margin:2px,0px;
+  }
+
+  #card_list_deck {
+    display:block;
+    height: 450px;
+    overflow-y: scroll;
+  }
+  .course_list_detail_card{
+    background-color: rgba(209, 205, 199, 0.3);
+    margin:4px;
+    width:90%;
+    text-align: center;
+  }
+
 }

@@ -15,12 +15,14 @@ detail
     <span class="course_zip">{{course.zip_Code}}</span>
   </div>
   {% endfor %}
-  <div>
 </div>
+{% if user.is_superuser %}
+<div>
     <form action="../scrape/"  method="POST" enctype="application/x-www-form-urlencoded">
       {% csrf_token %}
       {{form.as_p}}
-      <button type=Submit >Du</button>
+      <button type=Submit >Scape</button>
   </form>
 </div>
+{% endif %}
 {% endblock content %}
